@@ -1,0 +1,39 @@
+<html>
+    <head>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <main>
+            <div>
+                <form action="" id="post-form">
+                    {% csrf_token %}
+                    <input type="text" id="link" name="link">
+                    <button type="submit" id="shorten">Click</button>
+                </form>
+        
+                <section id="section"></section>
+            </div>
+            <h2></h2>
+        </main>
+
+        <script type="text/javascript">
+            $(document).on('submit','#post-form',function(e){
+                e.preventDefault();
+
+                $.ajax({
+                    type:'POST',
+                    url:'/create',
+                    data:{
+                        link:$('#link').val(),
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success:function(data){
+                        console.log(data);
+                        $('h2').html('http://127.0.0.1:8000/'+data);
+                    }
+                });
+            });
+        
+        </script>
+    </body>
+</html>
