@@ -7,6 +7,21 @@ from django.http import HttpResponse
 def index(request):
     return render(request,'index.html')
 
+def check_duplicate_uuid(new_uuid):
+    existing_uuid=None
+    try:
+        existing_uuid=Url.objects.get(uid=new_uuid)
+    except Url.DoesNotExist:
+        existing_uuid=None
+    finally:
+        return existing_uuid is not None
+
+def get_uuid():
+    while True:
+        new_uuid=str(uuid.uuid4())[:5]
+        if not check_duplicate_uuid(new_uuid):
+            return new_uuid
+
 def get_existing(url):
     existing_url=None
     try:
@@ -19,9 +34,9 @@ def get_existing(url):
 def create(request):
     if request.method=='POST':
         url=request.POST['link']
-        uid=str(uuid.uuid4())[:5]
+        uid=get_uuid()
         new_url=get_existing(url)
-        
+
         if(new_url is None):
             new_url=Url(link=url,uid=uid)
             new_url.save()
