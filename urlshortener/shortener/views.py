@@ -12,7 +12,7 @@ def create(request):
         url=request.POST['link']
         uid=str(uuid.uuid4())[:5]
         new_url=Url(link=url,uid=uid)
-        new_url.save()
+        new_url.save() #duplicate entries
         return HttpResponse(uid)
 
 def go(request,pk):
