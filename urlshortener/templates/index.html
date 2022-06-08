@@ -22,6 +22,7 @@
     <body>
         <main>
             <div class='container'>
+                {% csrf_token %}
                 <form action="" id="post-form" class="form-control m-3">
                     
                     <input type="text" id="link" name="link" placeholder="Enter Long Url">
